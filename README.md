@@ -6,3 +6,6 @@ Usado para entender o lifecycle hooks dos componentes e o uso de Change Detectio
 
 ## Change Detection Performance
 Testes da árvore de chamadas das views do Change Detection
+
+## CounterComPresenterVsContainer
+Exemplificação do padrão presenter vs container
