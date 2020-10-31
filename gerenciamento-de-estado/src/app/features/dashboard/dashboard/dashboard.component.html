@@ -1,0 +1,14 @@
+<div class="container">
+    <div class="greetings">
+      <h1>Olá, {{user.name}}</h1>
+    </div>
+  
+    <div class="content-1">
+      <app-last-todos></app-last-todos>
+    </div>
+  
+    <div class="content-2">
+      <app-create-todo (created)="onCreated($event)"></app-create-todo>
+    </div>
+  </div>
+  
