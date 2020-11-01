@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Todo } from '../../../shared/models/todo.model';
 import { TodosService } from '../../../shared/services/todos.service';
+import { ListTodosService } from '../services/list-todos.service';
 
 @Component({
   selector: 'app-list-todos',
@@ -9,11 +10,13 @@ import { TodosService } from '../../../shared/services/todos.service';
 })
 export class ListTodosComponent implements OnInit {
   list: Todo[];
-  page = 0;
-  constructor(private todosService: TodosService) {}
+  constructor(
+    private todosService: TodosService,
+    private listTodosService: ListTodosService
+  ) {}
 
   ngOnInit() {
-    this.todosService.getList(0).subscribe(list => this.list = list);
+    this.todosService.getList(0).subscribe((list) => (this.list = list));
   }
 
   markAsDone(id: number) {
@@ -24,14 +27,15 @@ export class ListTodosComponent implements OnInit {
 
   onDelete(id: number) {
     this.todosService.remove(id).subscribe(() => {
-      this.list = this.list.filter(item => item.id !== id);
+      this.list = this.list.filter((item) => item.id !== id);
     });
   }
 
   loadMore() {
-    this.page++;
-    this.todosService
-      .getList(this.page)
-      .subscribe((list) => (this.list = [...this.list, ...list]));
+    this.listTodosService.page++;
+    this.todosService.getList(this.listTodosService.page).subscribe((list) => {
+      this.list = [...this.list, ...list];
+      this.listTodosService.list = this.list;
+    });
   }
 }

@@ -11,8 +11,6 @@ import { User } from '../../../shared/models/user.model';
 })
 export class DashboardComponent implements OnInit {
   user: User;
-  @ViewChild(LastTodosComponent, {static: false}) lastTodoChild: LastTodosComponent;
-
   constructor(private userContext: UserContextService) {
   }
 
@@ -20,7 +18,4 @@ export class DashboardComponent implements OnInit {
     this.user = this.userContext.user;
   }
 
-  onCreated(todo: Todo) {
-    this.lastTodoChild.handleCreated(todo);
-  }
 }

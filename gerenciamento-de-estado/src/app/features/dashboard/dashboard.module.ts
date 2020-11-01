@@ -6,6 +6,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ListTodosComponent } from './list-todos/list-todos.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { ListTodosService } from './services/list-todos.service';
 
 @NgModule({
   declarations: [
@@ -28,5 +29,6 @@ import { RouterModule } from '@angular/router';
       },
     ]),
   ],
+  providers: [ListTodosService]
 })
 export class DashboardModule {}
