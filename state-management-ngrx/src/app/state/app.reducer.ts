@@ -1,17 +1,28 @@
-import { Action, createReducer } from '@ngrx/store';
+import { Action, createReducer, on } from '@ngrx/store';
 import { User } from '../shared/models/user.model';
-
+import * as fromAppActions from './app.action';
 export interface AppState {
-    user: User
+  user: User;
 }
 
 export const initialState: AppState = {
-    user: undefined
-}
+  user: undefined,
+};
 
-const appStateReducer = createReducer(initialState);
+const appStateReducer = createReducer(
+  initialState,
+  on(fromAppActions.doLogin, (state, { name, email }) => {
+    return {
+      ...state,
+      user: {
+        ...state.user,
+        name,
+        email,
+      },
+    };
+  })
+);
 
 export function reducer(state: AppState | undefined, action: Action): AppState {
-    return appStateReducer(state, action);
+  return appStateReducer(state, action);
 }
-
