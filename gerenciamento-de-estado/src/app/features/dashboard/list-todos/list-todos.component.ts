@@ -16,7 +16,7 @@ export class ListTodosComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.todosService.getList(0).subscribe((list) => (this.list = list));
+    this.listTodosService.list$.subscribe(list => this.list = list);
   }
 
   markAsDone(id: number) {
@@ -34,8 +34,8 @@ export class ListTodosComponent implements OnInit {
   loadMore() {
     this.listTodosService.page++;
     this.todosService.getList(this.listTodosService.page).subscribe((list) => {
-      this.list = [...this.list, ...list];
-      this.listTodosService.list = this.list;
+      const newlist = [...this.list, ...list];
+      this.listTodosService.list = newlist;
     });
   }
 }

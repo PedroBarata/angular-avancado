@@ -18,7 +18,10 @@ export class CreateTodoComponent implements OnInit {
   constructor(private todoService: TodosService,
               private listTodosService: ListTodosService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.listTodosService.list$.subscribe(list => this.list = list);
+
+  }
 
   /* Ele é irmão do last-todos, da forma que está, 
   precisamos passar para o pai (dashboard component) 
@@ -26,7 +29,7 @@ export class CreateTodoComponent implements OnInit {
   save() {
     this.todoService.create({ title: this.titleControl.value })
     .subscribe(todo => {
-      this.listTodosService.addTodo(todo);
+      this.listTodosService.list = [todo, ...this.list];
     });
   }
 }
