@@ -16,26 +16,18 @@ export class ListTodosComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.listTodosService.list$.subscribe(list => this.list = list);
+    this.listTodosService.list$.subscribe((list) => (this.list = list));
   }
 
   markAsDone(id: number) {
-    this.todosService.toggleDone(id).subscribe((todo) => {
-      this.list = this.list.map((item) => (item.id === todo.id ? todo : item));
-    });
+    this.listTodosService.markAsDone(id);
   }
 
   onDelete(id: number) {
-    this.todosService.remove(id).subscribe(() => {
-      this.list = this.list.filter((item) => item.id !== id);
-    });
+    this.listTodosService.delete(id);
   }
 
   loadMore() {
-    this.listTodosService.page++;
-    this.todosService.getList(this.listTodosService.page).subscribe((list) => {
-      const newlist = [...this.list, ...list];
-      this.listTodosService.list = newlist;
-    });
+    this.listTodosService.loadMore();
   }
 }

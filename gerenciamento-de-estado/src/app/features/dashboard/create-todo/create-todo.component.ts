@@ -15,21 +15,16 @@ export class CreateTodoComponent implements OnInit {
 
   list: Todo[];
 
-  constructor(private todoService: TodosService,
-              private listTodosService: ListTodosService) {}
+  constructor(private listTodosService: ListTodosService) {}
 
   ngOnInit(): void {
-    this.listTodosService.list$.subscribe(list => this.list = list);
-
+    this.listTodosService.list$.subscribe((list) => (this.list = list));
   }
 
   /* Ele é irmão do last-todos, da forma que está, 
   precisamos passar para o pai (dashboard component) 
   e o pai repassar a info de criação para o last-todo */
   save() {
-    this.todoService.create({ title: this.titleControl.value })
-    .subscribe(todo => {
-      this.listTodosService.list = [todo, ...this.list];
-    });
+    this.listTodosService.create(this.titleControl.value);
   }
 }

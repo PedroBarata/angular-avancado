@@ -11,33 +11,20 @@ import { ListTodosService } from '../services/list-todos.service';
 export class LastTodosComponent implements OnInit {
   list: Todo[];
 
-  constructor(
-    private todosService: TodosService,
-    private listTodosService: ListTodosService
-  ) {}
+  constructor(private listTodosService: ListTodosService) {}
 
   /* Não está ouvindo as alterações que vem do serviço, com isso, nao atualizamos o DOM aqui */
   ngOnInit() {
-    this.listTodosService.list$.subscribe((list) => {
-      if (!list || !list.length) {
-        this.todosService.getList(0).subscribe((list) => {
-          /* Como estamos trabalhando reativamente agora, 
-          não faz sentido a linha abaixo, pois o listTodoService rodará o set, 
-          o que chamará novamente esse subscribe */
-          //this.list = list;
+    /*neste caso, esse trecho apenas EMITE o comando para obter a pagina 0 da lista
+    além disso, precisamos ainda do subscriber para pegar essa emissao*/
+    this.listTodosService.getList(0);
 
-          /* Isso fará com que rode o 'set' e disparará mais um evento de next */
-          this.listTodosService.list = list;
-        });
-      } else {
-        this.list = list.slice(0, 10);
-      }
-    });
+    this.listTodosService.list$.subscribe(
+      (list) => (this.list = list.slice(0, 10))
+    );
   }
 
   markAsDone(id: number) {
-    this.todosService.toggleDone(id).subscribe((todo) => {
-      this.list = this.list.map((item) => (item.id === todo.id ? todo : item));
-    });
+    this.listTodosService.markAsDone(id);
   }
 }
